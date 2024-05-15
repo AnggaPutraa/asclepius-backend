@@ -36,6 +36,15 @@ router.post(
   },
 );
 
-router.get('/histories', async (req: Request, res: Response) => {});
+router.get('/histories', async (_req: Request, res: Response) => {
+  try {
+    const data = await predictService.loadHistory();
+    return res.status(200).json(data);
+  } catch (error) {
+    throw new BadRequestException(
+      'Terjadi kesalahan dalam pengambilan histori',
+    );
+  }
+});
 
 export default router;

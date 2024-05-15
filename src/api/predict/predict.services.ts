@@ -1,6 +1,7 @@
 import * as tf from '@tensorflow/tfjs-node';
 import { v4 as uuidv4 } from 'uuid';
 import { conf } from '../../conf';
+import { db } from '../../db';
 
 class PredictService {
   private model: tf.GraphModel | undefined;
@@ -23,7 +24,19 @@ class PredictService {
       createdAt: createdAt.toISOString(),
     };
 
+    await db.collection('Predictions').doc(id).set(result);
+
     return result;
+  }
+
+  async loadHistory() {
+    const predictions = db.collection('Predictions');
+    const snapshot = await predictions.get();
+    const data = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      history: doc.data(),
+    }));
+    return data;
   }
 
   private async loadModel() {
