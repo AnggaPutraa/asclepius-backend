@@ -24,13 +24,13 @@ class PredictService {
       createdAt: createdAt.toISOString(),
     };
 
-    await db.collection('Predictions').doc(id).set(result);
+    await db.collection('predictions').doc(id).set(result);
 
     return result;
   }
 
   async loadHistory() {
-    const predictions = db.collection('Predictions');
+    const predictions = db.collection('predictions');
     const snapshot = await predictions.get();
     const data = snapshot.docs.map((doc) => ({
       id: doc.id,
