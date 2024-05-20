@@ -24,7 +24,7 @@ class PredictService {
       createdAt: createdAt.toISOString(),
     };
 
-    await db.collection('predictions').doc(id).set(result);
+    // await db.collection('predictions').doc(id).set(result);
 
     return result;
   }
